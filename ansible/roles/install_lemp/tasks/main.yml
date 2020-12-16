@@ -1,11 +1,6 @@
 ---
 # tasks file for install_lemp
 
-
-
-- name: ping
-  ping:
-
 - name: Update all packages to their latest version
   apt:
     force_apt_get: True
@@ -19,11 +14,6 @@
 
 - name: Add php repository
   apt_repository: repo='ppa:ondrej/php'
-
-- name: Disable apache2 if enabled
-  shell: if systemctl is-enabled --quiet apache2; then systemctl disable apache2 && echo disable_ok ; fi
-  register: output
-  changed_when: "'disable_ok' in output.stdout"
 
 - name: install nginx
   apt: name=nginx state=latest
@@ -70,9 +60,6 @@
     - mysql-server
   notify:
      - start mysql
-
-- name: install php7.4
-  apt: name=php7.4 state=latest
 
 - name: install php7.4-fpm
   apt: name=php7.4-fpm state=latest
